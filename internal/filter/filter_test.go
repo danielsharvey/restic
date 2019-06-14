@@ -254,6 +254,13 @@ var filterListTests = []struct {
 	{[]string{"/*/*/bar/test.*"}, "/foo/bar/test.go", false},
 	{[]string{"/*/*/bar/test.*", "*.go"}, "/foo/bar/test.go", true},
 	{[]string{"", "*.c"}, "/foo/bar/test.go", false},
+	{[]string{"!**", "*.go"}, "/foo/bar/test.go", true},
+	{[]string{"!**", "*.c"}, "/foo/bar/test.go", false},
+	{[]string{"/foo/*/test.*", "!*.c"}, "/foo/bar/test.c", false},
+	{[]string{"/foo/*/test.*", "!*.c"}, "/foo/bar/test.go", true},
+	{[]string{"/foo/*/*", "!test.*", "*.c"}, "/foo/bar/test.go", false},
+	{[]string{"/foo/*/*", "!test.*", "*.c"}, "/foo/bar/test.c", true},
+	{[]string{"/foo/*/*", "!test.*", "*.c"}, "/foo/bar/file.go", true},
 }
 
 func TestList(t *testing.T) {
